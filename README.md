@@ -2,6 +2,7 @@
 
 A web app for faculty to define Course Outcomes, record student scores against them, and get server-calculated attainment percentages per outcome.
 
+**RX-Code:** `RX-A95725`
 **Live Demo:** https://co-attainment-calculator.vercel.app/
 **API Documentation:** https://co-attainment-calculator.onrender.com/docs
 
