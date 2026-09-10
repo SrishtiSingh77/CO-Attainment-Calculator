@@ -30,3 +30,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
+
+app.include_router(courses.router)
+app.include_router(outcomes.router)
+app.include_router(students.router)
+app.include_router(scores.router)
+app.include_router(attainment.router)
