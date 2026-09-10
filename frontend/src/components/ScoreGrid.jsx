@@ -4,6 +4,8 @@ export default function ScoreGrid({ students, outcomes, scores, onSaveScore }) {
   // Track in-flight/just-saved cell state for lightweight feedback,
   // keyed by "studentId-coId".
   const [cellStatus, setCellStatus] = useState({});
+  // Inline validation message per cell, same key as cellStatus.
+  const [cellError, setCellError] = useState({});
 
   const scoreMap = new Map(scores.map((s) => [`${s.student_id}-${s.co_id}`, s]));
 
@@ -15,8 +17,15 @@ export default function ScoreGrid({ students, outcomes, scores, onSaveScore }) {
     const marks = Number(rawValue);
     if (Number.isNaN(marks) || marks < 0 || marks > 100) {
       setCellStatus((prev) => ({ ...prev, [key]: "error" }));
+      setCellError((prev) => ({
+        ...prev,
+        [key]: "Score must be between 0 and 100.",
+      }));
       return;
     }
+
+    // Valid value entered — clear any previous validation message.
+    setCellError((prev) => ({ ...prev, [key]: undefined }));
 
     // No-op if unchanged
     if (existingScore && existingScore.marks === marks) return;
@@ -79,8 +88,9 @@ export default function ScoreGrid({ students, outcomes, scores, onSaveScore }) {
                 const key = `${student.id}-${co.id}`;
                 const existing = scoreMap.get(key);
                 const status = cellStatus[key];
+                const errorMessage = cellError[key];
                 return (
-                  <td key={co.id} className="px-2 py-1.5 text-center">
+                  <td key={co.id} className="px-2 py-1.5 text-center align-top">
                     <input
                       type="number"
                       min="0"
@@ -89,6 +99,7 @@ export default function ScoreGrid({ students, outcomes, scores, onSaveScore }) {
                       onBlur={(e) =>
                         handleBlur(student.id, co.id, e.target.value, existing)
                       }
+                      aria-invalid={errorMessage ? "true" : "false"}
                       className={`w-16 text-center text-sm border rounded-md px-1 py-1 focus:outline-none focus:ring-2 ${
                         status === "error"
                           ? "border-red-400 focus:ring-red-300"
@@ -97,6 +108,11 @@ export default function ScoreGrid({ students, outcomes, scores, onSaveScore }) {
                           : "border-slate-300 focus:ring-indigo-400"
                       }`}
                     />
+                    {errorMessage && (
+                      <p className="text-[11px] leading-tight text-red-500 mt-1 w-16">
+                        {errorMessage}
+                      </p>
+                    )}
                   </td>
                 );
               })}
