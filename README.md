@@ -56,9 +56,14 @@ Attainment % = (students with score >= threshold / students with a recorded scor
 
 ## Tech Stack
 
-**Backend:** Python, FastAPI, SQLAlchemy, SQLite, Pydantic, Pytest
-**Frontend:** React, Vite, JavaScript, Tailwind CSS, Axios
-**Deployment:** Vercel (frontend), Render (backend)
+### Backend
+Python · FastAPI · SQLAlchemy · SQLite · Pydantic · Pytest
+
+### Frontend
+React · Vite · JavaScript · Tailwind CSS · Axios
+
+### Deployment
+Vercel · Render
 
 ## Architecture
 
@@ -105,7 +110,9 @@ frontend/
 
 ## Demo
 
-The screenshots below aren't included in this repository — see the live app instead: https://co-attainment-calculator.vercel.app/
+Try the live application:
+
+https://co-attainment-calculator.vercel.app/
 
 ## Local Setup
 
@@ -113,7 +120,20 @@ The screenshots below aren't included in this repository — see the live app in
 
 ```bash
 cd backend
-python -m venv venv && source venv/bin/activate   # optional but recommended
+python -m venv venv
+```
+
+Windows:
+```bash
+venv\Scripts\activate
+```
+
+macOS/Linux:
+```bash
+source venv/bin/activate
+```
+
+```bash
 pip install -r requirements.txt
 python -m app.seed
 uvicorn app.main:app --reload
